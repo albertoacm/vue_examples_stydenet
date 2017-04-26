@@ -15,9 +15,26 @@
       <h1>{{gender == 'm' ? 'Bienvenido' : 'Bienvenida' }}, {{ name }}</h1>
       <!-- Directivas v-if, v-show, v-else -->
       <span v-if="name.length > 5"> Tu nombre al reves es {{ name.split('').reverse().join('') }}</span>
-      <input type="text" v-model="name" class="form-control">
-      <input type="radio" value="m" v-model="gender"/>Masculino
-      <input type="radio" value="f" v-model="gender"/>Femenino
+      <form @submit.prevent="signUp">
+        <label><input type="text" v-model="name" class="form-control"></label>
+        <p>
+          <label>
+            Hombre:<input type="radio" value="m" v-model="gender"/>
+          </label>
+          <label>
+            Mujer:<input type="radio" value="f" v-model="gender"/>
+          </label>
+        </p>
+        <p>
+          <label>
+            ¿Años de experiencia en php? {{ years_php }}
+            <button class="btn btn-primary">+</button>
+            <button class="btn btn-primary">-</button>
+          </label>
+        </p>
+        <hr>
+        <button type="submit" class="btn bnt-primary">Registrar</button>
+      </form>
       <hr>
       <pre>{{ $data }}</pre>
     </div>
@@ -26,7 +43,13 @@
         el: "#app",
         data: {
           name: "Alberto",
-          gender: "f"
+          gender: "f",
+          years_php: 0
+        },
+        methods:{
+          signUp: function(){
+            console.log('Bienvenido '+this.name)
+          }
         }
       })
     </script>
