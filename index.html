@@ -25,30 +25,53 @@
             Mujer:<input type="radio" value="f" v-model="gender"/>
           </label>
         </p>
-        <p>
-          <label>
-            ¿Años de experiencia en php? {{ years_php }}
-            <button class="btn btn-primary">+</button>
-            <button class="btn btn-primary">-</button>
-          </label>
-        </p>
+        
+        <years-question :years.sync="years_php" tech="php"></years-question>
+        <years-question :years.sync="years_js" tech="js"></years-question>
+
         <hr>
         <button type="submit" class="btn bnt-primary">Registrar</button>
       </form>
       <hr>
       <pre>{{ $data }}</pre>
     </div>
+
+    <script type="text/template" id="years_template">
+    <div>
+      <p>¿Años de experiencia en {{ tech }} ?</p>
+      <p>Respuesta: <strong>{{ years }}</strong>
+        <button class="btn btn-primary" @click="add">+</button>
+        <button class="btn btn-primary" :disabled="years == 0" @click="sub">-</button>
+      </p>
+      </div>
+    </script>
+
     <script type="text/javascript">
+
+      Vue.component('years-question',{
+        template: "#years_template",
+        methods: {
+          add: function(){
+            this.years++;
+          },
+          sub: function(){
+            this.years > 0 ? this.years-- : 0;
+          }
+        },
+        props: ['years','tech']
+      });
+
       new Vue({
         el: "#app",
         data: {
           name: "Alberto",
           gender: "f",
-          years_php: 0
+          years_php: 0,
+          years_js: 0
         },
         methods:{
           signUp: function(){
-            console.log('Bienvenido '+this.name)
+            //console.log('Bienvenido '+this.name)
           }
         }
       })
